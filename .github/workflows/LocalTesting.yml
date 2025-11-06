@@ -19,6 +19,7 @@ jobs:
       GEN: ninja
       VCPKG_TOOLCHAIN_PATH: ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
       UC_TEST_SERVER_RUNNING: 1
+      BUILD_EXTENSION_TEST_DEPS: full
 
     steps:
     - uses: actions/checkout@v4

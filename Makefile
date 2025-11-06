@@ -6,7 +6,9 @@ EXT_CONFIG=${PROJ_DIR}extension_config.cmake
 
 # Core extensions that we need for crucial testing
 #DEFAULT_TEST_EXTENSION_DEPS=parquet;httpfs;delta
+
 DEFAULT_TEST_EXTENSION_DEPS=parquet;httpfs
+FULL_TEST_EXTENSION_DEPS=tpcds;tpch
 
 # Include the Makefile from extension-ci-tools
 include extension-ci-tools/makefiles/duckdb_extension.Makefile
