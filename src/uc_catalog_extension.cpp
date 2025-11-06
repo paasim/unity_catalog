@@ -114,7 +114,12 @@ static unique_ptr<Catalog> UCCatalogAttach(optional_ptr<StorageExtensionInfo> st
 
 	if (default_schema.empty()) {
 		//! No explicit default schema provided, ask the catalog:
-		default_schema = UCAPI::GetDefaultSchema(credentials);
+		// Fixme: default namespace endpoint not available in OSS unity catalog, hence we throw
+		try {
+			default_schema = UCAPI::GetDefaultSchema(credentials);
+		} catch (Exception &e) {
+			DUCKDB_LOG_ERROR(context, "Failed to fetch default schema: %s", e.what());
+		}
 	}
 
 	return make_uniq<UCCatalog>(db, info.path, attach_options, credentials, default_schema);

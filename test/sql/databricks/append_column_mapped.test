@@ -34,3 +34,4 @@ ATTACH 'duckdblabs_testing' (TYPE UC_CATALOG, DEFAULT_SCHEMA 'main');
 # Can't write to this table because of the permissions it was created with
 statement error
 insert into duckdblabs_testing.main.evolution_simple_id_mode VALUES (3, 3);
+----

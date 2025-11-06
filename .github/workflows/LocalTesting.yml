@@ -57,11 +57,11 @@ jobs:
 
     - name: Build extension
       run: |
-        make release
+        make reldebug
 
     - name: Test extension
       run: |
-        make test_release
+        make test_reldebug
 
     - name: Move ssl certificate to ensure we still find it
       run: |
@@ -69,4 +69,4 @@ jobs:
 
     - name: Test extension
       run: |
-        make test_release
+        make test_reldebug

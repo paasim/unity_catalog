@@ -47,8 +47,10 @@ optional_ptr<SchemaCatalogEntry> UCCatalog::LookupSchema(CatalogTransaction tran
                                                          OnEntryNotFound if_not_found) {
 	if (schema_lookup.GetEntryName() == DEFAULT_SCHEMA && default_schema != DEFAULT_SCHEMA) {
 		if (default_schema.empty()) {
-			throw InvalidInputException("Attempting to fetch the default schema - but no database was "
-			                            "provided by the catalog");
+			throw InvalidInputException(
+			    "Default schema for catalog '%s' not found. This means auto-detection of default schema failed. Please "
+			    "specify a DEFAULT_SCHEMA on ATTACH: `ATTACH '..' (TYPE uc_catalog, DEFAULT_SCHEMA 'my_schema')`",
+			    GetName());
 		}
 		return GetSchema(transaction, default_schema, if_not_found);
 	}

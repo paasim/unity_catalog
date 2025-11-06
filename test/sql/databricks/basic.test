@@ -38,3 +38,30 @@ use duckdb_test_4
 
 query I nosort expected_res
 from test_table;
+
+statement ok
+use memory
+
+statement ok
+DETACH duckdb_test_4
+
+# Without a default schema is also possible
+
+statement ok
+ATTACH 'duckdb_test_4' (TYPE UC_CATALOG);
+
+# Can query a table
+query I nosort expected_res
+from duckdb_test_4.test_schema.test_table;
+
+# TODO: can we fix this? Or at least throw a nicer error
+statement error
+use duckdb_test_4
+----
+Catalog Error: SET schema: No catalog + schema named "duckdb_test_4" found.
+
+statement ok
+use duckdb_test_4.test_schema
+
+query I nosort expected_res
+from test_table;

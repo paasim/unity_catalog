@@ -252,7 +252,7 @@ string UCAPI::GetDefaultSchema(const UCCredentials &credentials) {
 		error.ThrowError("Failed to get default schema of the catalog");
 	}
 
-	auto setting_name = TryGetStrFromObject(root, "setting_name");
+	auto setting_name = TryGetStrFromObject(root, "setting_name", false);
 	if (setting_name.empty()) {
 		throw InvalidInputException("Failed to get default schema of the catalog, "
 		                            "API response is invalid!");
