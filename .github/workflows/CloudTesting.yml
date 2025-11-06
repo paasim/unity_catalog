@@ -9,7 +9,7 @@ defaults:
 
 jobs:
   databricks-tests-linux:
-    name: Azure tests (Linux)
+    name: Databricks test (Linux)
     runs-on: ubuntu-latest
     env:
       VCPKG_TARGET_TRIPLET: x64-linux
@@ -55,7 +55,7 @@ jobs:
         env:
           GEN: ninja
         run: |
-          make reldebug
+          make release
 
       - name: Setup credentials
         uses: 1password/load-secrets-action@v3
@@ -69,4 +69,4 @@ jobs:
 
       - name: Test with databricks free credentials
         run: |
-          make test_reldebug
+          make test_release
