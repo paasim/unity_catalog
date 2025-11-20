@@ -1,6 +1,6 @@
-# name: test/sql/databricks/write.test
+# name: test/sql/databricks/write_tests/write.test
 # description: test
-# group: [databricks]
+# group: [write_tests]
 
 # Require statement will ensure this test is run with this extension loaded
 require parquet

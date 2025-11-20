@@ -127,7 +127,7 @@ PhysicalOperator &UCCatalog::PlanInsert(ClientContext &context, PhysicalPlanGene
 	if (table_data->storage_location.find("file://") != 0) {
 		auto &secret_manager = SecretManager::Get(context);
 		// Get Credentials from UCAPI
-		auto table_credentials = UCAPI::GetTableCredentials(table_data->table_id, credentials);
+		auto table_credentials = UCAPI::GetTableCredentials(context, table_data->table_id, credentials);
 
 		// Inject secret into secret manager sc oped to this path TODO:
 		CreateSecretInput input;

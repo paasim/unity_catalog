@@ -1,16 +1,15 @@
-#include "uc_catalog_extension.hpp"
-#include "storage/uc_catalog.hpp"
-#include "storage/uc_transaction_manager.hpp"
-
-#include "duckdb.hpp"
-#include "duckdb/main/secret/secret_manager.hpp"
 #include "duckdb/common/exception.hpp"
 #include "duckdb/common/string_util.hpp"
-#include "duckdb/function/scalar_function.hpp"
-#include "duckdb/parser/parsed_data/create_scalar_function_info.hpp"
+#include "duckdb/main/extension/extension_loader.hpp"
+#include "duckdb/main/extension_helper.hpp"
+#include "duckdb/main/secret/secret_manager.hpp"
 #include "duckdb/parser/parsed_data/attach_info.hpp"
 #include "duckdb/storage/storage_extension.hpp"
+
+#include "storage/uc_catalog.hpp"
+#include "storage/uc_transaction_manager.hpp"
 #include "uc_api.hpp"
+#include "uc_catalog_extension.hpp"
 
 namespace duckdb {
 
@@ -116,7 +115,7 @@ static unique_ptr<Catalog> UCCatalogAttach(optional_ptr<StorageExtensionInfo> st
 		//! No explicit default schema provided, ask the catalog:
 		// Fixme: default namespace endpoint not available in OSS unity catalog, hence we throw
 		try {
-			default_schema = UCAPI::GetDefaultSchema(credentials);
+			default_schema = UCAPI::GetDefaultSchema(context, credentials);
 		} catch (Exception &e) {
 			DUCKDB_LOG_ERROR(context, "Failed to fetch default schema: %s", e.what());
 		}
@@ -140,8 +139,6 @@ public:
 };
 
 static void LoadInternal(ExtensionLoader &loader) {
-	UCAPI::InitializeCurl();
-
 	SecretType secret_type;
 	secret_type.name = "uc";
 	secret_type.deserializer = KeyValueSecret::Deserialize<KeyValueSecret>;

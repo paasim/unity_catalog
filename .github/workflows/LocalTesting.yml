@@ -51,10 +51,12 @@ jobs:
 
     - name: Setup Unity Catalog test server
       run: |
-        sudo apt install default-jre
+        sudo apt install openjdk-17-jre-headless
         git clone https://github.com/unitycatalog/unitycatalog.git
-        cd unitycatalog && ./bin/start-uc-server &
-        sleep 60
+        cd unitycatalog 
+        build/sbt package
+        bin/start-uc-server | tee uc.log &
+        sleep 15 # should be quite fast, capture initial output in GH logs
 
     - name: Build extension
       run: |
@@ -62,6 +64,9 @@ jobs:
 
     - name: Test extension
       run: |
+        # confirm UC test server up
+        cat unitycatalog/uc.log
+        unitycatalog/bin/uc catalog list
         make test_release
 
     - name: Move ssl certificate to ensure we still find it
