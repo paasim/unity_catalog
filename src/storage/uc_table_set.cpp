@@ -30,7 +30,7 @@ void UCTableSet::LoadEntries(ClientContext &context) {
 	auto &uc_catalog = catalog.Cast<UCCatalog>();
 
 	// TODO: handle out-of-order columns using position property
-	auto tables = UCAPI::GetTables(catalog.GetDBPath(), schema.name, uc_catalog.credentials);
+	auto tables = UCAPI::GetTables(context, catalog, schema.name, uc_catalog.credentials);
 
 	for (auto &table : tables) {
 		D_ASSERT(schema.name == table.schema_name);

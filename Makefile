@@ -27,6 +27,8 @@ include extension-ci-tools/makefiles/duckdb_extension.Makefile
 # Then just run the following targets in order. Note that tests can be ran once, consequent runs may fail
 
 write_tests_prepare:
+	# fast fail databricks-connect req for py3.12
+	python3 --version | grep -q '^Python 3[.]12[.]'
 	python3 -m venv venv
 	./venv/bin/pip3 install -r scripts/requirements.txt
 	./venv/bin/python3 scripts/copy_write_test_data.py ${DATABRICKS_WRITE_TEST_CATALOG}.source ${DATABRICKS_WRITE_TEST_CATALOG}.${DATABRICKS_WRITE_TEST_SCHEMA}
